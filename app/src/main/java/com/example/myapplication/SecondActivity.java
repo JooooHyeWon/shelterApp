@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -19,6 +24,29 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         Log.i(TAG, getLocalClassName() + ".onCreate");
+
+        Button btnMusic = (Button)findViewById(R.id.musicPlayBtn);
+        btnMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context c = view.getContext();
+                MediaPlayer mediaPlayer = MediaPlayer.create(c, R.raw.base_bgm);
+                mediaPlayer.start();
+
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.stop();
+                        mp.release();
+                    }
+
+                });
+
+            }
+        });
+
+
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
